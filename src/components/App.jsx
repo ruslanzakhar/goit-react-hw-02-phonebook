@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import initialContacts from './data/contacts.json';
 import Layout from './Layout/Layout';
@@ -29,17 +29,14 @@ class App extends Component {
   addContact = ({ name, number }) => {
     const normalizedName = name.toLowerCase();
 
-    let isAdded = false;
-    this.state.contacts.forEach(el => {
-      if (el.name.toLowerCase() === normalizedName) {
-        toast.error(`${name}: is already in contacts`, notifyOptions);
-        isAdded = true;
-      }
-    });
-
+    const isAdded = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === normalizedName
+    );
     if (isAdded) {
-      return;
+      return alert(`${name} is already in contacts` , notifyOptions);
     }
+
+    
     const contact = {
       id: shortid.generate(),
       name: name,
